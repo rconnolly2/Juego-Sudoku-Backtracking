@@ -41,18 +41,28 @@ class Sudoku:
         # Configurar cuadrados fila & columnas para que se puedan escalar
         for num_columna_fila in range(len(self.tabla)):
             self.ventana.grid_columnconfigure(num_columna_fila, weight=1) # weight es cuando se puede escalar 
-            self.ventana.grid_rowconfigure(num_columna_fila, weight=1)    # en relación cono los otros 1 > 0 el menu no queremos que se escale :)
+            self.ventana.grid_rowconfigure(num_columna_fila, weight=1)    # en relación con los otros 1 > 0 el menu no queremos que se escale :)
                                                                           # también las filas
 
     def dibujar_menu(self):
-        div_menu = tk.Frame(self.ventana, bg="green", width=self.ANCHO_MENU, height=self.TAMAÑO_VENTANA_INICIAL[1])
-        div_menu.grid(row=0, column=9, rowspan=9, sticky="nw")
+        # Esto seria como el "div" del menu
+        div_menu = tk.Frame(self.ventana, bg="#F3F3F3", width=self.ANCHO_MENU, height=self.TAMAÑO_VENTANA_INICIAL[1])
         # Configuro para que no sea escalable y este después de los cuadrados horizontalmente
+        div_menu.grid(row=0, column=9, rowspan=9, sticky="nw")
         self.ventana.grid_columnconfigure(len(self.tabla), weight=0) # weight 0 porque en referencia con los cuadrados queremos que escale la mitad que ellos
 
         # Añado el titulo del menu al div menu
-        titulo_menu = tk.Label(div_menu, fg="black", text="Menu Sudoku:")
-        titulo_menu.pack()
+        titulo_menu = tk.Label(div_menu, text="Menu Sudoku:")
+        titulo_menu.pack(pady=20)
+        # Botones para generar nuevo sudoku,borrar cuadrado y resolver sudoku
+        b_nuevo_sudoku = tk.Button(div_menu, fg="white", bg="#0067C0", text="Nuevo\nSudoku")
+        b_borrar_cuadrado = tk.Button(div_menu, fg="white", bg="#0067C0", text="Borrar cuadrado\nseleccionado")
+        b_resolver_sudoku = tk.Button(div_menu, fg="white", bg="#0067C0", text="Resolver\nSudoku")
+        br = tk.Label(div_menu, text="", height=12)
+        b_nuevo_sudoku.pack()
+        b_borrar_cuadrado.pack(pady=20)
+        b_resolver_sudoku.pack()
+        br.pack()
 
     def __init__(self, nombre_ventana: str):
         # Inicio tkinter con nombre de ventana:
