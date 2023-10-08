@@ -27,17 +27,16 @@ class Sudoku:
             for j in range(len(self.tabla[i])):
                 ancho += 1
                 str_numero = tk.StringVar(value=str(self.tabla[alto][ancho]))
+
                 # Cuadrados con texto utilizando (Label)
                 cuadrado = tk.Label(self.ventana, bg="green" if alto % 2 == 0 else "red", textvariable=str_numero)
-                cuadrado.grid(row=ancho, column=alto, sticky="nsew") # sticky=> quiero se peguen arriba, abajo, derecha y izquierda
+                cuadrado.grid(row=alto, column=ancho, sticky="nsew") # sticky=> quiero se peguen arriba, abajo, derecha y izquierda
                 self.lista_cuadrados[alto][ancho][0] = cuadrado # añado label cuadrado a mi lista de cuadrados
                 self.lista_cuadrados[alto][ancho][1] = str_numero
 
                 # Texto utilizando (labels)
 
             ancho = -1 # reseteo iterador ancho
-
-        print("Dimensiones tabla: " + str(alto) + " " + str(ancho))
 
         # Configurar cuadrados fila & columnas para que se puedan escalar
         for num_columna_fila in range(len(self.tabla)):
@@ -53,8 +52,9 @@ class Sudoku:
         self.ventana.minsize(width=self.TAMAÑO_VENTANA_INICIAL[0], height=self.TAMAÑO_VENTANA_INICIAL[1])
         # Listas para los cuadrados
         tamaño_filas_columnas = len(self.tabla)
+        # Creo una lista para guardar el obj StringVar y label de los cuadrado, creo la lista con un "list comprehension":
         self.lista_cuadrados = [[[None, None] for columnas in range(tamaño_filas_columnas)] for filas in range(tamaño_filas_columnas)]
-   
+
     def run_sudoku(self):
         self.lista_cuadrados[0][2][1].set("hola")
         self.ventana.mainloop()
