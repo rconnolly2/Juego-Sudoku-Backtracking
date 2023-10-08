@@ -15,8 +15,8 @@ class Sudoku:
     ]
 
 
-
-    TAMAÑO_VENTANA_INICIAL = (400, 400)
+    ANCHO_MENU = 100
+    TAMAÑO_VENTANA_INICIAL = (400+ANCHO_MENU, 400)
 
 
     def dibujar_tabla(self):
@@ -29,7 +29,7 @@ class Sudoku:
                 str_numero = tk.StringVar(value=str(self.tabla[alto][ancho]))
 
                 # Cuadrados con texto utilizando (Label)
-                cuadrado = tk.Label(self.ventana, bg="green" if alto % 2 == 0 else "red", textvariable=str_numero)
+                cuadrado = tk.Label(self.ventana, bg="green" if alto % 2 == 0 else "red", textvariable=str_numero, borderwidth=1, relief="solid")
                 cuadrado.grid(row=alto, column=ancho, sticky="nsew") # sticky=> quiero se peguen arriba, abajo, derecha y izquierda
                 self.lista_cuadrados[alto][ancho][0] = cuadrado # añado label cuadrado a mi lista de cuadrados
                 self.lista_cuadrados[alto][ancho][1] = str_numero
@@ -44,11 +44,21 @@ class Sudoku:
             self.ventana.grid_rowconfigure(num_columna_fila, weight=1)    # en relación cono los otros 1 > 0 el menu no queremos que se escale :)
                                                                           # también las filas
 
+    def dibujar_menu(self):
+        div_menu = tk.Frame(self.ventana, bg="green", width=self.ANCHO_MENU, height=self.TAMAÑO_VENTANA_INICIAL[1])
+        div_menu.grid(row=0, column=9, rowspan=9, sticky="nw")
+        # Configuro para que no sea escalable y este después de los cuadrados horizontalmente
+        self.ventana.grid_columnconfigure(len(self.tabla), weight=0) # weight 0 porque en referencia con los cuadrados queremos que escale la mitad que ellos
+
+        # Añado el titulo del menu al div menu
+        titulo_menu = tk.Label(div_menu, fg="black", text="Menu Sudoku:")
+        titulo_menu.pack()
+
     def __init__(self, nombre_ventana: str):
         # Inicio tkinter con nombre de ventana:
         self.ventana = tk.Tk()
         self.ventana.title(nombre_ventana)
-        # Empieza con este tamaño ventana
+        # Empieza con este tamaño MÍNIMO! ventana
         self.ventana.minsize(width=self.TAMAÑO_VENTANA_INICIAL[0], height=self.TAMAÑO_VENTANA_INICIAL[1])
         # Listas para los cuadrados
         tamaño_filas_columnas = len(self.tabla)
@@ -66,4 +76,5 @@ class Sudoku:
 if __name__ == "__main__":
     mi_sudoku = Sudoku("Sudoku Juego")
     mi_sudoku.dibujar_tabla()
+    mi_sudoku.dibujar_menu()
     mi_sudoku.run_sudoku()
