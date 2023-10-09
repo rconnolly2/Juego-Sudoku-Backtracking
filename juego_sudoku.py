@@ -78,7 +78,9 @@ class Sudoku:
 
     def run_sudoku(self):
         self.lista_cuadrados[0][2][1].set("hola")
-        print(SolucionarSudoku.encontrar_cuadrado_vacio(mi_sudoku.tabla))
+        print(self.tabla)
+        SolucionarSudoku.resolver_sudoku(self.tabla)
+        print(self.tabla)
         self.ventana.mainloop()
 
     
