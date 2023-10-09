@@ -1,4 +1,5 @@
 import tkinter as tk
+from solucionar_sudoku import SolucionarSudoku
 
 class Sudoku:
 
@@ -55,10 +56,10 @@ class Sudoku:
         titulo_menu = tk.Label(div_menu, text="Menu Sudoku:")
         titulo_menu.pack(pady=20)
         # Botones para generar nuevo sudoku,borrar cuadrado y resolver sudoku
-        b_nuevo_sudoku = tk.Button(div_menu, fg="white", bg="#0067C0", text="Nuevo\nSudoku")
+        b_nuevo_sudoku = tk.Button(div_menu, fg="white", bg="#0067C0", text="Nuevo\nSudoku", border=1)
         b_borrar_cuadrado = tk.Button(div_menu, fg="white", bg="#0067C0", text="Borrar cuadrado\nseleccionado")
         b_resolver_sudoku = tk.Button(div_menu, fg="white", bg="#0067C0", text="Resolver\nSudoku")
-        br = tk.Label(div_menu, text="", height=12)
+        br = tk.Label(div_menu, text="", height=12, bg="#F3F3F3") # espacio vació para que se vea mas fondo
         b_nuevo_sudoku.pack()
         b_borrar_cuadrado.pack(pady=20)
         b_resolver_sudoku.pack()
@@ -77,9 +78,10 @@ class Sudoku:
 
     def run_sudoku(self):
         self.lista_cuadrados[0][2][1].set("hola")
+        print(SolucionarSudoku.encontrar_cuadrado_vacio(mi_sudoku.tabla))
         self.ventana.mainloop()
 
-
+    
 
 
 
