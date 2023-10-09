@@ -75,6 +75,16 @@ class Sudoku:
         tamaño_filas_columnas = len(self.tabla)
         # Creo una lista para guardar el obj StringVar y label de los cuadrado, creo la lista con un "list comprehension":
         self.lista_cuadrados = [[[None, None] for columnas in range(tamaño_filas_columnas)] for filas in range(tamaño_filas_columnas)]
+    
+    def imprimir_movimiento_valido(self, numero, pos_movimiento, lista_frames):
+        if numero != 0:
+            lista_frames[pos_movimiento[0]][pos_movimiento[1]][0].configure(bg="blue") # cambio color frame
+            lista_frames[pos_movimiento[0]][pos_movimiento[1]][1].set(str(numero)) # cambio numero
+        else:
+            raise ValueError("Error: el numero que me as dado es 0!")
+
+    def imprimir_movimiento_invalido(self):
+        pass
 
     def run_sudoku(self):
         self.lista_cuadrados[0][2][1].set("hola")

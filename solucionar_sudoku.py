@@ -61,11 +61,14 @@ class SolucionarSudoku:
         else:
             fila, columna = pos_vacía
 
+        # Vamos probando con el espacio vació números del 1 al 10 si ningún numero es valido hacemos
+        # backtracking (volver atrás recursivamente) si hemos encontrado un numero valido ejecutamos
+        # esta misma función (recursividad) cambiando el valor de la tabla antes claro...
         for numero in range(1, 10): # iterador del 1 al 10 (no empieza por 0)
             if SolucionarSudoku.es_numero_valido(tabla, numero, pos_vacía) == True:
                 tabla[pos_vacía[0]][pos_vacía[1]] = numero
                 
-                if SolucionarSudoku.resolver_sudoku(tabla) == True:
+                if SolucionarSudoku.resolver_sudoku(tabla) == True: # si no hay mas cuadrados vacíos nos darán True
                     return True # fin de recursividad también
                 else:
                     tabla[pos_vacía[0]][pos_vacía[1]] = 0 # backtracking (volvemos atrás)
