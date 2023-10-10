@@ -18,7 +18,7 @@ class Sudoku:
     ]
     tabla_solucionado = copy.deepcopy(tabla) # Hago un deep copia primero (porque es una lista de listas)
 
-
+    VIDAS_JUEGO = 3
     ANCHO_MENU = 100
     TAMAÑO_VENTANA_INICIAL = (400+ANCHO_MENU, 400)
 
@@ -111,8 +111,14 @@ class Sudoku:
         '''
         En esta función la misión es ver que label ha hecho click y hacer la acción conveniente:
         '''
-        label_seleccionado = event.widget # este es el label de nuestra lista que se ha hecho click!
-        label_seleccionado.config(highlightthickness=1, highlightbackground="blue", borderwidth=0)
+        objeto_tkinter = event.widget # que tipo de objeto es: puede ser o label o un evento de teclado
+        tecla = event.keysym
+
+        if isinstance(objeto_tkinter, tk.Label): # es un label!
+            objeto_tkinter.config(highlightthickness=1, highlightbackground="green", borderwidth=0) # cambio el aspecto del label a un borde de color verde
+            self.click_label = True # a hecho click ahora podemos aceptar eventos de teclado por ejemplo un numero
+        elif isinstance(objeto_tkinter, tk.Entry) and self.click_label == True: # es un input de teclado!
+            print(objeto_tkinter)
 
     def __init__(self, nombre_ventana: str):
         # Inicio tkinter con nombre de ventana:
@@ -124,12 +130,15 @@ class Sudoku:
         tamaño_filas_columnas = len(self.tabla)
         # Creo una lista para guardar el obj StringVar y label de los cuadrado, creo la lista con un "list comprehension":
         self.lista_cuadrados = [[[None, None] for columnas in range(tamaño_filas_columnas)] for filas in range(tamaño_filas_columnas)]
-
+        # booleano si se ha hecho click en un cuadrado para aceptar keystrokes
+        self.click_label = False
     def run_sudoku(self):
         
         # Resuelvo el sudoku en una copia de la tabla antes para agilizar porque el bucle de tkinter tarda mucho:
         SolucionarSudoku.resolver_sudoku(self.tabla_solucionado)
         self.asignar_click_labels()
+        # Asignar keystrokes a todo el programa en caso de números del 1 al 9
+        self.ventana.bind("<Key>", self.input_usuario)
         # Ejecutando el bucle principal de tkinter
         self.ventana.mainloop()
         
