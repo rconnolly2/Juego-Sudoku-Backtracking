@@ -94,8 +94,25 @@ class Sudoku:
         b_nuevo_sudoku.pack()
         b_borrar_cuadrado.pack(pady=20)
         b_resolver_sudoku.pack()
-        b_resolver_sudoku_rápido.pack()
+        b_resolver_sudoku_rápido.pack(pady=20)
         br.pack()
+
+    def asignar_click_labels(self):
+        '''
+        Esta función su misión es asignar evento de click por <Button-1> => click izq ratón
+        a todos los labels de la cuadricula.
+        '''
+        for i in range(len(self.lista_cuadrados)):
+            for j in range(len(self.lista_cuadrados)):
+                # cada una de los "labels" de la cuadricula les asignamos un evento de click (cuando hay click izq del ratón)
+                self.lista_cuadrados[i][j][0].bind("<Button-1>", self.input_usuario) # cuando hay evento se manda a función => input_usuario()
+
+    def input_usuario(self, event):
+        '''
+        En esta función la misión es ver que label ha hecho click y hacer la acción conveniente:
+        '''
+        label_seleccionado = event.widget # este es el label de nuestra lista que se ha hecho click!
+        label_seleccionado.config(highlightthickness=1, highlightbackground="blue", borderwidth=0)
 
     def __init__(self, nombre_ventana: str):
         # Inicio tkinter con nombre de ventana:
@@ -107,28 +124,13 @@ class Sudoku:
         tamaño_filas_columnas = len(self.tabla)
         # Creo una lista para guardar el obj StringVar y label de los cuadrado, creo la lista con un "list comprehension":
         self.lista_cuadrados = [[[None, None] for columnas in range(tamaño_filas_columnas)] for filas in range(tamaño_filas_columnas)]
-    
-    @staticmethod
-    def imprimir_movimiento_valido(numero, pos_movimiento, lista_frames):
-        if numero != 0:
-            lista_frames[pos_movimiento[0]][pos_movimiento[1]][0].configure(bg="blue") # cambio color frame
-            lista_frames[pos_movimiento[0]][pos_movimiento[1]][1].set(str(numero)) # cambio numero
-        else:
-            raise ValueError("Error: el numero que me as dado es 0!")
-
-    def imprimir_movimiento_invalido(numero):
-        pass
 
     def run_sudoku(self):
         
         # Resuelvo el sudoku en una copia de la tabla antes para agilizar porque el bucle de tkinter tarda mucho:
         SolucionarSudoku.resolver_sudoku(self.tabla_solucionado)
-        #self.actualizar_tabla(self.tabla_solucionado)
-        # Primer hilo resolver sudoku con backtracking (asi podemos resolver el sudoku mientras estamos)
+        self.asignar_click_labels()
         # Ejecutando el bucle principal de tkinter
-        hilo_1 = threading.Thread(target=SolucionarSudoku.resolver_sudoku, args=(self.tabla, self.lista_cuadrados))
-        # Arrancamos hilo 1 y después bucle principal de tkinter
-        #hilo_1.start()
         self.ventana.mainloop()
         
 
