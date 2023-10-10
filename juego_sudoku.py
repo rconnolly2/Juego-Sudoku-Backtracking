@@ -53,9 +53,9 @@ class Sudoku:
 
     def display_resultado_sudoku(self, tabla: list):
         '''
-        Esta función va a actualizar la tabla entera cogiendo una lista (como un movimiento valido)
+        Esta función va a actualizar la tabla entera cogiendo una lista (la tabla resulta al iniciar el programa en => run)
         la diferencia que esta función ya imprime la tabla resulta, enseñándolo de cuadrado a cuadrado
-        lo cual sera mas rápido que el otro método.
+        lo cual sera mas rápido que el otro método por problemas con tkinter y su bucle que es muy lento.
 
         tabla => la lista que se va a imprimir en pantalla
         '''
