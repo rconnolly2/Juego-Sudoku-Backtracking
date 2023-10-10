@@ -1,3 +1,4 @@
+import time
 class SolucionarSudoku:
 
     def __init__(self):
@@ -47,10 +48,14 @@ class SolucionarSudoku:
     
 
     @staticmethod
-    def resolver_sudoku(tabla):
+    def resolver_sudoku(tabla:list, lista_labels=None):
         '''
         Resolver sudoku con recursividad y backtracking
         https://en.wikipedia.org/wiki/Backtracking
+
+        tabla => la lista de sudoku que va resolver
+
+        lista_labels => la lista de labels y StringVar que va a editar en tiempo real
         '''
 
         pos_vacía = SolucionarSudoku.encontrar_cuadrado_vacio(tabla)
@@ -67,10 +72,16 @@ class SolucionarSudoku:
         for numero in range(1, 10): # iterador del 1 al 10 (no empieza por 0)
             if SolucionarSudoku.es_numero_valido(tabla, numero, pos_vacía) == True:
                 tabla[pos_vacía[0]][pos_vacía[1]] = numero
-                
-                if SolucionarSudoku.resolver_sudoku(tabla) == True: # si no hay mas cuadrados vacíos nos darán True
+                if lista_labels != None:
+                    lista_labels[pos_vacía[0]][pos_vacía[1]][0].configure(bg="green") # cambio color del label a "green" el movimiento valido 
+                    lista_labels[pos_vacía[0]][pos_vacía[1]][1].set(str(numero)) # ponemos el numero correcto al label
+
+                if SolucionarSudoku.resolver_sudoku(tabla, lista_labels) == True: # si no hay mas cuadrados vacíos nos darán True
                     return True # fin de recursividad también
                 else:
                     tabla[pos_vacía[0]][pos_vacía[1]] = 0 # backtracking (volvemos atrás)
-
+                    # cambio el numero a cero y fondo del label a rojo
+                    if lista_labels != None:
+                        lista_labels[pos_vacía[0]][pos_vacía[1]][0].configure(bg="red") # cambio color del label a "cyan" el movimiento valido 
+                        lista_labels[pos_vacía[0]][pos_vacía[1]][1].set("")
         return False # en caso ningún numero del 1 al 10 sea valido hacemos backtracking

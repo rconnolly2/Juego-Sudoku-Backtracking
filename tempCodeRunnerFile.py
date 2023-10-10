@@ -1,0 +1,1 @@
+ku, args=(self.tabla, self.lista_cuadrados, t1, True))
