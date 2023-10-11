@@ -110,7 +110,7 @@ class Sudoku:
         titulo_menu = tk.Label(div_menu, textvariable=self.string_var_menu)
         titulo_menu.pack(pady=20)
         # Botones para generar nuevo sudoku,borrar cuadrado y resolver sudoku
-        b_nuevo_sudoku = tk.Button(div_menu, fg="white", bg="#0067C0", text="Nuevo\nSudoku", border=1)
+        b_nuevo_sudoku = tk.Button(div_menu, fg="white", bg="#0067C0", text="Nuevo\nSudoku", border=1, command=self.nuevo_sudoku)
         b_borrar_cuadrado = tk.Button(div_menu, fg="white", bg="#0067C0", text="Borrar cuadrado\nseleccionado")
 
         # ejecuto hilo resolver sudoku con backtracking (asi podemos resolver el sudoku mientras estamos en bucle principal)
@@ -168,6 +168,16 @@ class Sudoku:
                 self.VIDAS_JUEGO -= 1 # quitamos una vida de las 3
                 self.actualizar_pantalla_vidas() # actualizo vida pantalla, si vida = 0 cierro el juego
                 self.click_label = False if self.VIDAS_JUEGO > 0 else True # Si le quedan vidas puede volver a intentarlo
+
+    def nuevo_sudoku(self):
+        '''
+        Creo sudoku con mi función generar_sudoku() luego lo aplico a mi tabla
+        resuelvo el sudoku y imprimo en pantalla el nuevo sudoku con dibujar_tabla()
+        '''
+        self.tabla = GenerarSudoku.generar_sudoku(self.tabla) # generar nuevo sudoku aleatorio
+        self.tabla_solucionado = copy.deepcopy(self.tabla) # genero copia de nuevo sudoku
+        SolucionarSudoku.resolver_sudoku(self.tabla_solucionado) # resolver tabla sudoku
+        self.dibujar_tabla() # dibujar nueva tabla
 
     def actualizar_pantalla_vidas(self):
         '''
