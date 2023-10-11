@@ -17,7 +17,7 @@ class SolucionarSudoku:
                 
 
     @staticmethod
-    def es_numero_valido(tabla, num, posición):
+    def es_numero_valido(tabla: list, num: int, posición: list):
         '''
         Esta función devuelve un booleano si poniendo este numero es valido en las reglas de sudoku
         '''

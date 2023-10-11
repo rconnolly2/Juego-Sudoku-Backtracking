@@ -111,14 +111,36 @@ class Sudoku:
         '''
         En esta función la misión es ver que label ha hecho click y hacer la acción conveniente:
         '''
+        keystrokes_aceptados = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+        fila, colum = self.fila_colum_seleccionado # saco ultima fila columna seleccionada (si la hay)
         objeto_tkinter = event.widget # que tipo de objeto es: puede ser o label o un evento de teclado
-        tecla = event.keysym
+        tecla = event.keysym # consigue la tecla pulsada
 
-        if isinstance(objeto_tkinter, tk.Label): # es un label!
-            objeto_tkinter.config(highlightthickness=1, highlightbackground="green", borderwidth=0) # cambio el aspecto del label a un borde de color verde
+        if isinstance(objeto_tkinter, tk.Label) and self.click_label == False: # es un label!
+
+            objeto_tkinter.config(bg="lightsalmon", highlightthickness=1, highlightbackground="green", borderwidth=0) # cambio el aspecto del label a un borde de color verde
             self.click_label = True # a hecho click ahora podemos aceptar eventos de teclado por ejemplo un numero
-        elif isinstance(objeto_tkinter, tk.Entry) and self.click_label == True: # es un input de teclado!
-            print(objeto_tkinter)
+            # Encuentro el numero de fila y columna:
+            for i in range(len(self.lista_cuadrados)):
+                for j in range(len(self.lista_cuadrados)):
+                    if self.lista_cuadrados[i][j][0] == objeto_tkinter:
+                        self.fila_colum_seleccionado = i, j # he encontrado la fila y columna
+
+
+        
+        elif (tecla in keystrokes_aceptados) and (self.click_label == True) and (self.fila_colum_seleccionado[0] != None): # es un input de teclado! del 1-9 y antes se ha hecho click en un cuadro
+            if self.tabla_solucionado[fila][colum] == int(tecla): # si el valor es el mismo que la tabla solucionada:
+                self.tabla[fila][colum] = int(tecla) # cambio valor 0 de tabla al numero del keystroke
+                self.lista_cuadrados[fila][colum][1].set(str(tecla)) # cambio el StringVar del Label
+                self.lista_cuadrados[fila][colum][0].configure(bg="green", highlightthickness=0, highlightbackground="black", borderwidth=1)
+                self.fila_colum_seleccionado = None, None # quito cuadrado seleccionado
+                self.click_label = False # Ahora puedes volver a intentarlo
+            else:
+                self.lista_cuadrados[fila][colum][1].set(str(tecla)) # cambio el StringVar del Label
+                self.lista_cuadrados[fila][colum][0].configure(bg="red", highlightthickness=0, highlightbackground="black", borderwidth=1)
+                self.fila_colum_seleccionado = None, None # quito cuadrado seleccionado
+                self.click_label = False # Ahora puedes volver a intentarlo
+
 
     def __init__(self, nombre_ventana: str):
         # Inicio tkinter con nombre de ventana:
@@ -132,6 +154,9 @@ class Sudoku:
         self.lista_cuadrados = [[[None, None] for columnas in range(tamaño_filas_columnas)] for filas in range(tamaño_filas_columnas)]
         # booleano si se ha hecho click en un cuadrado para aceptar keystrokes
         self.click_label = False
+        # fila y columna seleccionada:
+        self.fila_colum_seleccionado = None, None
+        
     def run_sudoku(self):
         
         # Resuelvo el sudoku en una copia de la tabla antes para agilizar porque el bucle de tkinter tarda mucho:
