@@ -1,8 +1,11 @@
 import tkinter as tk
-from solucionar_sudoku import SolucionarSudoku
 import threading
 import time
 import copy
+
+from solucionar_sudoku import SolucionarSudoku
+from generar_sudoku import GenerarSudoku
+
 class Sudoku:
 
     tabla = [
@@ -20,7 +23,7 @@ class Sudoku:
 
     VIDAS_JUEGO = 3
     ANCHO_MENU = 100
-    TAMAÑO_VENTANA_INICIAL = (400+ANCHO_MENU, 400)
+    TAMAÑO_VENTANA_INICIAL = (500+ANCHO_MENU, 400)
 
     def __init__(self, nombre_ventana: str):
         # Inicio tkinter con nombre de ventana:
@@ -117,7 +120,7 @@ class Sudoku:
 
         br = tk.Label(div_menu, text="", height=12, bg="#F3F3F3") # espacio vació para que se vea mas fondo
         b_nuevo_sudoku.pack()
-        b_borrar_cuadrado.pack(pady=20)
+        b_borrar_cuadrado.pack(pady=20, padx=10)
         b_resolver_sudoku.pack()
         b_resolver_sudoku_rápido.pack(pady=20)
         br.pack()
@@ -185,4 +188,7 @@ if __name__ == "__main__":
     mi_sudoku = Sudoku("Sudoku Juego")
     mi_sudoku.dibujar_tabla()
     mi_sudoku.dibujar_menu()
+    test_nueva_tabla = GenerarSudoku.generar_sudoku(mi_sudoku.tabla)
+    print(mi_sudoku.tabla)
+    print(test_nueva_tabla)
     mi_sudoku.run_sudoku()
