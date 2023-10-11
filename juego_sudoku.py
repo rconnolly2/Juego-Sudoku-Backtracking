@@ -22,6 +22,32 @@ class Sudoku:
     ANCHO_MENU = 100
     TAMAÑO_VENTANA_INICIAL = (400+ANCHO_MENU, 400)
 
+    def __init__(self, nombre_ventana: str):
+        # Inicio tkinter con nombre de ventana:
+        self.ventana = tk.Tk()
+        self.ventana.title(nombre_ventana)
+        # Empieza con este tamaño MÍNIMO! ventana
+        self.ventana.minsize(width=self.TAMAÑO_VENTANA_INICIAL[0], height=self.TAMAÑO_VENTANA_INICIAL[1])
+        # Listas para los cuadrados
+        tamaño_filas_columnas = len(self.tabla)
+        # Creo una lista para guardar el obj StringVar y label de los cuadrado, creo la lista con un "list comprehension":
+        self.lista_cuadrados = [[[None, None] for columnas in range(tamaño_filas_columnas)] for filas in range(tamaño_filas_columnas)]
+        # StringVar del texto del menu (label):
+        self.string_var_menu = tk.StringVar(value="Menu Sudoku\nVidas: " + str(self.VIDAS_JUEGO))
+        # booleano si se ha hecho click en un cuadrado para aceptar keystrokes
+        self.click_label = False
+        # fila y columna seleccionada:
+        self.fila_colum_seleccionado = None, None
+        
+    def run_sudoku(self):
+        
+        # Resuelvo el sudoku en una copia de la tabla antes para agilizar porque el bucle de tkinter tarda mucho:
+        SolucionarSudoku.resolver_sudoku(self.tabla_solucionado)
+        self.asignar_click_labels()
+        # Asignar keystrokes a todo el programa en caso de números del 1 al 9
+        self.ventana.bind("<Key>", self.input_usuario)
+        # Ejecutando el bucle principal de tkinter
+        self.ventana.mainloop()    
 
     def dibujar_tabla(self):
         '''
@@ -65,7 +91,6 @@ class Sudoku:
                 self.lista_cuadrados[i][j][0].configure(bg="green" if self.tabla[i][j] == 0 else "lightsalmon") # cambio color del label a "green" el movimiento valido 
                 self.lista_cuadrados[i][j][1].set(str(tabla[i][j])) # ponemos el numero correcto al label
                 time.sleep(0.1) # duermo 100 milisegundos entre imprimir cuadrados
-
 
     def dibujar_menu(self):
         # Creo hilo (resolver sudoku) sin ejecutar para luego:
@@ -146,37 +171,10 @@ class Sudoku:
         Esta función actualiza en pantalla las vidas del jugador con VIDAS_JUEGO => StringVar del Label
         ademas si vida es = 0 se cierra el juego sudoku
         '''
-        self.string_var_menu.set("Menu Sudoku:\nVidas: " + str(self.VIDAS_JUEGO))
+        self.string_var_menu.set("Menu Sudoku\nVidas: " + str(self.VIDAS_JUEGO))
         if self.VIDAS_JUEGO == 0:
-            time.sleep(1)
+            time.sleep(1.5)
             exit() # cierro programa
-
-    def __init__(self, nombre_ventana: str):
-        # Inicio tkinter con nombre de ventana:
-        self.ventana = tk.Tk()
-        self.ventana.title(nombre_ventana)
-        # Empieza con este tamaño MÍNIMO! ventana
-        self.ventana.minsize(width=self.TAMAÑO_VENTANA_INICIAL[0], height=self.TAMAÑO_VENTANA_INICIAL[1])
-        # Listas para los cuadrados
-        tamaño_filas_columnas = len(self.tabla)
-        # Creo una lista para guardar el obj StringVar y label de los cuadrado, creo la lista con un "list comprehension":
-        self.lista_cuadrados = [[[None, None] for columnas in range(tamaño_filas_columnas)] for filas in range(tamaño_filas_columnas)]
-        # StringVar del texto del menu (label):
-        self.string_var_menu = tk.StringVar(value="Menu Sudoku:\nVidas: " + str(self.VIDAS_JUEGO))
-        # booleano si se ha hecho click en un cuadrado para aceptar keystrokes
-        self.click_label = False
-        # fila y columna seleccionada:
-        self.fila_colum_seleccionado = None, None
-        
-    def run_sudoku(self):
-        
-        # Resuelvo el sudoku en una copia de la tabla antes para agilizar porque el bucle de tkinter tarda mucho:
-        SolucionarSudoku.resolver_sudoku(self.tabla_solucionado)
-        self.asignar_click_labels()
-        # Asignar keystrokes a todo el programa en caso de números del 1 al 9
-        self.ventana.bind("<Key>", self.input_usuario)
-        # Ejecutando el bucle principal de tkinter
-        self.ventana.mainloop()
         
 
     
