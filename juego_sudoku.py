@@ -87,7 +87,7 @@ class Sudoku:
 
         # ejecuto hilo resolver sudoku con backtracking (asi podemos resolver el sudoku mientras estamos en bucle principal)
         b_resolver_sudoku = tk.Button(div_menu, fg="white", bg="#0067C0", text="Resolver\nSudoku", command=lambda: hilo_1.start())
-        # resolver sudoku rapido con tabla ya resulta antes:
+        # resolver sudoku rápido con tabla ya resulta antes:
         b_resolver_sudoku_rápido = tk.Button(div_menu, fg="white", bg="#0067C0", text="Resolver\nSudoku rápido", command=hilo_2.start)
     
         br = tk.Label(div_menu, text="", height=12, bg="#F3F3F3") # espacio vació para que se vea mas fondo
@@ -126,8 +126,6 @@ class Sudoku:
                     if self.lista_cuadrados[i][j][0] == objeto_tkinter:
                         self.fila_colum_seleccionado = i, j # he encontrado la fila y columna
 
-
-        
         elif (tecla in keystrokes_aceptados) and (self.click_label == True) and (self.fila_colum_seleccionado[0] != None): # es un input de teclado! del 1-9 y antes se ha hecho click en un cuadro
             if self.tabla_solucionado[fila][colum] == int(tecla): # si el valor es el mismo que la tabla solucionada:
                 self.tabla[fila][colum] = int(tecla) # cambio valor 0 de tabla al numero del keystroke
@@ -139,8 +137,8 @@ class Sudoku:
                 self.lista_cuadrados[fila][colum][1].set(str(tecla)) # cambio el StringVar del Label
                 self.lista_cuadrados[fila][colum][0].configure(bg="red", highlightthickness=0, highlightbackground="black", borderwidth=1)
                 self.fila_colum_seleccionado = None, None # quito cuadrado seleccionado
-                self.click_label = False # Ahora puedes volver a intentarlo
-
+                self.VIDAS_JUEGO -= 1 # quitamos una vida de las 3
+                self.click_label = False if self.VIDAS_JUEGO > 0 else True # Si le quedan vidas puede volver a intentarlo
 
     def __init__(self, nombre_ventana: str):
         # Inicio tkinter con nombre de ventana:
