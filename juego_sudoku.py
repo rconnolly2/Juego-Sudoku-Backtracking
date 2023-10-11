@@ -78,8 +78,8 @@ class Sudoku:
         div_menu.grid(row=0, column=9, rowspan=9, sticky="nw")
         self.ventana.grid_columnconfigure(len(self.tabla), weight=0) # weight 0 porque en referencia con los cuadrados queremos que escale la mitad que ellos
 
-        # Añado el titulo del menu al div menu
-        titulo_menu = tk.Label(div_menu, text="Menu Sudoku:")
+        # Añado el titulo del menu al div menu con un string var en constructor
+        titulo_menu = tk.Label(div_menu, textvariable=self.string_var_menu)
         titulo_menu.pack(pady=20)
         # Botones para generar nuevo sudoku,borrar cuadrado y resolver sudoku
         b_nuevo_sudoku = tk.Button(div_menu, fg="white", bg="#0067C0", text="Nuevo\nSudoku", border=1)
@@ -89,7 +89,7 @@ class Sudoku:
         b_resolver_sudoku = tk.Button(div_menu, fg="white", bg="#0067C0", text="Resolver\nSudoku", command=lambda: hilo_1.start())
         # resolver sudoku rápido con tabla ya resulta antes:
         b_resolver_sudoku_rápido = tk.Button(div_menu, fg="white", bg="#0067C0", text="Resolver\nSudoku rápido", command=hilo_2.start)
-    
+
         br = tk.Label(div_menu, text="", height=12, bg="#F3F3F3") # espacio vació para que se vea mas fondo
         b_nuevo_sudoku.pack()
         b_borrar_cuadrado.pack(pady=20)
@@ -138,7 +138,18 @@ class Sudoku:
                 self.lista_cuadrados[fila][colum][0].configure(bg="red", highlightthickness=0, highlightbackground="black", borderwidth=1)
                 self.fila_colum_seleccionado = None, None # quito cuadrado seleccionado
                 self.VIDAS_JUEGO -= 1 # quitamos una vida de las 3
+                self.actualizar_pantalla_vidas() # actualizo vida pantalla, si vida = 0 cierro el juego
                 self.click_label = False if self.VIDAS_JUEGO > 0 else True # Si le quedan vidas puede volver a intentarlo
+
+    def actualizar_pantalla_vidas(self):
+        '''
+        Esta función actualiza en pantalla las vidas del jugador con VIDAS_JUEGO => StringVar del Label
+        ademas si vida es = 0 se cierra el juego sudoku
+        '''
+        self.string_var_menu.set("Menu Sudoku:\nVidas: " + str(self.VIDAS_JUEGO))
+        if self.VIDAS_JUEGO == 0:
+            time.sleep(1)
+            exit() # cierro programa
 
     def __init__(self, nombre_ventana: str):
         # Inicio tkinter con nombre de ventana:
@@ -150,6 +161,8 @@ class Sudoku:
         tamaño_filas_columnas = len(self.tabla)
         # Creo una lista para guardar el obj StringVar y label de los cuadrado, creo la lista con un "list comprehension":
         self.lista_cuadrados = [[[None, None] for columnas in range(tamaño_filas_columnas)] for filas in range(tamaño_filas_columnas)]
+        # StringVar del texto del menu (label):
+        self.string_var_menu = tk.StringVar(value="Menu Sudoku:\nVidas: " + str(self.VIDAS_JUEGO))
         # booleano si se ha hecho click en un cuadrado para aceptar keystrokes
         self.click_label = False
         # fila y columna seleccionada:
