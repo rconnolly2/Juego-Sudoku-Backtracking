@@ -135,7 +135,7 @@ class Sudoku:
             titulo_menu.pack(pady=20)
             # Botones para generar nuevo sudoku,borrar cuadrado y resolver sudoku
             b_nuevo_sudoku = tk.Button(self.div_menu, fg="white", bg="#0067C0", text="Nuevo\nSudoku", border=1, command=self.nuevo_sudoku)
-            b_borrar_cuadrado = tk.Button(self.div_menu, fg="white", bg="#0067C0", text="Borrar cuadrado\nseleccionado")
+            b_borrar_cuadrado = tk.Button(self.div_menu, fg="white", bg="#0067C0", text="Borrar cuadrado\nseleccionado", command=self.eliminar_cuadrado_label)
 
             # Ejecuto hilo resolver sudoku con backtracking (asi podemos resolver el sudoku mientras estamos en bucle principal)
             # Lo guardo en instancia para poder actualizarlo luego
@@ -215,6 +215,21 @@ class Sudoku:
         if self.VIDAS_JUEGO == 0:
             time.sleep(1.5)
             exit() # cierro programa
+
+    def eliminar_cuadrado_label(self):
+        '''
+        Esta función eliminara el cuadrado seleccionado anteriormente en la tabla y
+        en la lista de labels y si no se ha seleccionado anteriormente enviara en "pop up" de error
+
+        '''
+        if self.click_label == True:
+            fila, colum = self.fila_colum_seleccionado
+            self.tabla[fila][colum] = 0 # cambio el valor de la lista tabla
+            self.lista_cuadrados[fila][colum][0].configure(bg="lightsalmon") # cambio propiedades del label
+            self.lista_cuadrados[fila][colum][1].set("") # cambio el StringVar del label a string vació
+            self.click_label = False # usuario puede hacer otra acción
+        else:
+            messagebox.showerror("Error: Sin selección", "Error: No has seleccionado ningún recuadro, selecciona un recuadro y luego dale al botón eliminar")
 
     def cerrar_ventana(self):
         #https://docs.python.org/3/library/tkinter.messagebox.html#tkinter.messagebox.Message
