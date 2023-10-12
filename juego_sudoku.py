@@ -100,8 +100,9 @@ class Sudoku:
         '''
 
         for i in range(len(self.tabla)):
-            for j in range((len(self.tabla))): 
-                self.lista_cuadrados[i][j][1].set(str(self.tabla[i][j])) # ponemos el numero nuevo de tabla (sin solucionar) al label
+            for j in range((len(self.tabla))):
+                # si el valor nuevo es un cero ponemos un string vació (""):
+                self.lista_cuadrados[i][j][1].set(str(self.tabla[i][j]) if self.tabla[i][j] != 0 else "") # ponemos el numero nuevo de tabla (sin solucionar) al label
 
     def dibujar_menu(self):
         # Creo hilo (resolver sudoku) sin ejecutar para luego:
