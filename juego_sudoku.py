@@ -80,26 +80,24 @@ class Sudoku:
             self.ventana.grid_rowconfigure(num_columna_fila, weight=1)    # en relación con los otros 1 > 0 el menu no queremos que se escale :)
                                                                           # también las filas
 
-    def display_resultado_sudoku(self, tabla: list):
+    def display_resultado_sudoku(self):
         '''
         Esta función va a actualizar la tabla entera cogiendo una lista (la tabla resulta al iniciar el programa en => run)
         la diferencia que esta función ya imprime la tabla resulta, enseñándolo de cuadrado a cuadrado
         lo cual sera mas rápido que el otro método por problemas con tkinter y su bucle que es muy lento.
-
-        tabla => la lista que se va a imprimir en pantalla
         '''
 
-        for i in range(len(tabla)):
-            for j in range((len(tabla))):
+        for i in range(len(self.tabla)):
+            for j in range((len(self.tabla))):
                 self.lista_cuadrados[i][j][0].configure(bg="green" if self.tabla[i][j] == 0 else "lightsalmon") # cambio color del label a "green" el movimiento valido 
-                self.lista_cuadrados[i][j][1].set(str(tabla[i][j])) # ponemos el numero correcto al label
+                self.lista_cuadrados[i][j][1].set(str(self.tabla_solucionado[i][j])) # ponemos el numero correcto al label
                 time.sleep(0.1) # duermo 100 milisegundos entre imprimir cuadrados
 
     def dibujar_menu(self):
         # Creo hilo (resolver sudoku) sin ejecutar para luego:
         hilo_1 = threading.Thread(target=SolucionarSudoku.resolver_sudoku, args=(self.tabla, self.lista_cuadrados))
         # Segundo hilo para enseñar resultado mas rápido:
-        hilo_2 = threading.Thread(target=self.display_resultado_sudoku, args=[self.tabla_solucionado])
+        hilo_2 = threading.Thread(target=self.display_resultado_sudoku)
         # Esto seria como el "div" del menu
         div_menu = tk.Frame(self.ventana, bg="#F3F3F3", width=self.ANCHO_MENU, height=self.TAMAÑO_VENTANA_INICIAL[1])
         # Configuro para que no sea escalable y este después de los cuadrados horizontalmente
@@ -198,7 +196,4 @@ if __name__ == "__main__":
     mi_sudoku = Sudoku("Sudoku Juego")
     mi_sudoku.dibujar_tabla()
     mi_sudoku.dibujar_menu()
-    test_nueva_tabla = GenerarSudoku.generar_sudoku(mi_sudoku.tabla)
-    print(mi_sudoku.tabla)
-    print(test_nueva_tabla)
     mi_sudoku.run_sudoku()
