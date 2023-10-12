@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 import threading
 import time
 import copy
@@ -49,8 +50,10 @@ class Sudoku:
         self.asignar_click_labels()
         # Asignar keystrokes a todo el programa en caso de números del 1 al 9
         self.ventana.bind("<Key>", self.input_usuario)
+        # Asingo evento en caso de que usuario de cerrar ventana:
+        self.ventana.protocol("WM_DELETE_WINDOW", self.cerrar_ventana)
         # Ejecutando el bucle principal de tkinter
-        self.ventana.mainloop()    
+        self.ventana.mainloop()
 
     def dibujar_tabla(self):
         '''
@@ -207,6 +210,12 @@ class Sudoku:
         if self.VIDAS_JUEGO == 0:
             time.sleep(1.5)
             exit() # cierro programa
+
+    def cerrar_ventana(self):
+        #https://docs.python.org/3/library/tkinter.messagebox.html#tkinter.messagebox.Message
+        if messagebox.askokcancel("Cerrar", "¿Quieres cerrar el programa?"):
+            self.ventana.destroy()
+            exit()
         
 
     
