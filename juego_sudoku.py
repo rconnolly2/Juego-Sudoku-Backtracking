@@ -256,7 +256,7 @@ if __name__ == "__main__":
     mi_sudoku.dibujar_tabla()
     mi_sudoku.dibujar_menu()
     mi_sudoku.run_sudoku()
-    # Aquí si creas otro de devolverá el objeto ya creado
+    # Aquí si creas otro sudoku te devolverá el objeto ya creado
     #mi_sudoku2 = Sudoku("Sudoku Juego 2")
     #print(str(mi_sudoku2.ventana.title()))
 
