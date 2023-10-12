@@ -92,6 +92,16 @@ class Sudoku:
                 self.lista_cuadrados[i][j][0].configure(bg="green" if self.tabla[i][j] == 0 else "lightsalmon") # cambio color del label a "green" el movimiento valido 
                 self.lista_cuadrados[i][j][1].set(str(self.tabla_solucionado[i][j])) # ponemos el numero correcto al label
                 time.sleep(0.1) # duermo 100 milisegundos entre imprimir cuadrados
+    
+    def actualizar_tabla_sudoku(self):
+        '''
+        Esta función va a actualizar la tabla entera, normalmente esto se utilizara por ejemplo si
+        hay una tabla nueva cogiendo los nuevos valores en self.tabla (sin resolver)
+        '''
+
+        for i in range(len(self.tabla)):
+            for j in range((len(self.tabla))): 
+                self.lista_cuadrados[i][j][1].set(str(self.tabla[i][j])) # ponemos el numero nuevo de tabla (sin solucionar) al label
 
     def dibujar_menu(self):
         # Creo hilo (resolver sudoku) sin ejecutar para luego:
@@ -175,7 +185,8 @@ class Sudoku:
         self.tabla = GenerarSudoku.generar_sudoku(self.tabla) # generar nuevo sudoku aleatorio
         self.tabla_solucionado = copy.deepcopy(self.tabla) # genero copia de nuevo sudoku
         SolucionarSudoku.resolver_sudoku(self.tabla_solucionado) # resolver tabla sudoku
-        self.dibujar_tabla() # dibujar nueva tabla
+        self.asignar_click_labels() # asigna botones a todos los labels (solo botón ratón izq)
+        self.actualizar_tabla_sudoku() # actualizo valores de los labels con actualizar_tabla_sudoku
 
     def actualizar_pantalla_vidas(self):
         '''
