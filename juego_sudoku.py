@@ -7,7 +7,9 @@ import copy
 from solucionar_sudoku import SolucionarSudoku
 from generar_sudoku import GenerarSudoku
 from singleton import singleton
-@singleton
+
+
+@singleton # Implemento patron creacional singleton
 class Sudoku:
 
     tabla = [
@@ -29,10 +31,15 @@ class Sudoku:
     AZUL_1 = "#92c1ff"
     AZUL_2 = "#c2dcff"
 
+
     def __init__(self, nombre_ventana: str):
         # Inicio tkinter con nombre de ventana:
         self.ventana = tk.Tk()
         self.ventana.title(nombre_ventana)
+        # Creo imagen para logo:
+        self.logo_imagen = tk.PhotoImage(file="./img/logo.png")
+        # Aplico logo al programa tkinter:
+        self.ventana.iconphoto(False, self.logo_imagen)
         # Empieza con este tamaño MÍNIMO! ventana
         self.ventana.minsize(width=self.TAMAÑO_VENTANA_INICIAL[0], height=self.TAMAÑO_VENTANA_INICIAL[1])
         # Listas para los cuadrados
@@ -139,7 +146,7 @@ class Sudoku:
             titulo_menu = tk.Label(self.div_menu, textvariable=self.string_var_menu, font=("Comfortaa", 11))
             titulo_menu.pack(pady=20)
             # Botones para generar nuevo sudoku,borrar cuadrado y resolver sudoku
-            b_nuevo_sudoku = tk.Button(self.div_menu, fg="white", bg="#0067C0", text="Nuevo\nSudoku", border=1, command=self.nuevo_sudoku)
+            b_nuevo_sudoku = tk.Button(self.div_menu, fg="white", bg="#0067C0", text="Nuevo\nSudoku", command=self.nuevo_sudoku)
             b_borrar_cuadrado = tk.Button(self.div_menu, fg="white", bg="#0067C0", text="Borrar cuadrado\nseleccionado", command=self.eliminar_cuadrado_label)
 
             # Ejecuto hilo resolver sudoku con backtracking (asi podemos resolver el sudoku mientras estamos en bucle principal)
@@ -176,7 +183,7 @@ class Sudoku:
 
         if isinstance(objeto_tkinter, tk.Label) and self.click_label == False: # es un label!
 
-            objeto_tkinter.config(highlightthickness=1, highlightbackground="green", borderwidth=0) # cambio el aspecto del label a un borde de color verde
+            objeto_tkinter.config(highlightthickness=2, highlightbackground="green", borderwidth=0) # cambio el aspecto del label a un borde de color verde
             self.click_label = True # a hecho click ahora podemos aceptar eventos de teclado por ejemplo un numero
             # Encuentro el numero de fila y columna:
             for i in range(len(self.lista_cuadrados)):
