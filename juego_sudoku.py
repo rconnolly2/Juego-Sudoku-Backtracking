@@ -201,12 +201,15 @@ class Sudoku:
         Creo sudoku con mi función generar_sudoku() luego lo aplico a mi tabla
         resuelvo el sudoku y imprimo en pantalla el nuevo sudoku con dibujar_tabla()
         '''
-        self.tabla = GenerarSudoku.generar_sudoku(self.tabla) # generar nuevo sudoku aleatorio
-        self.tabla_solucionado = copy.deepcopy(self.tabla) # genero copia de nuevo sudoku
-        SolucionarSudoku.resolver_sudoku(self.tabla_solucionado) # resolver tabla sudoku
-        self.asignar_click_labels() # asigna botones a todos los labels (solo botón ratón izq)
-        self.dibujar_menu(actualizar=True) # no creo el menu entero solo actualizo botón resolver sudoku con la nueva tabla
-        self.actualizar_tabla_sudoku() # actualizo valores de los labels con actualizar_tabla_sudoku
+        if (self.tabla[i][j] for i, j in range(len(self.tabla))) == 0: # Si hay mas de un cero en la tabla:
+            self.tabla = GenerarSudoku.generar_sudoku(self.tabla) # generar nuevo sudoku aleatorio
+            self.tabla_solucionado = copy.deepcopy(self.tabla) # genero copia de nuevo sudoku
+            SolucionarSudoku.resolver_sudoku(self.tabla_solucionado) # resolver tabla sudoku
+            self.asignar_click_labels() # asigna botones a todos los labels (solo botón ratón izq)
+            self.dibujar_menu(actualizar=True) # no creo el menu entero solo actualizo botón resolver sudoku con la nueva tabla
+            self.actualizar_tabla_sudoku() # actualizo valores de los labels con actualizar_tabla_sudoku
+        else:
+            messagebox.showwarning("Sudoku ya resulto", "Alerta: Este sudoku ya ha sido resuelto con lo cual no se puede generar otro, inicia el programa otra vez")
 
     def actualizar_pantalla_vidas(self):
         '''
