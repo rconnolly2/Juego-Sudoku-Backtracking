@@ -201,7 +201,7 @@ class Sudoku:
         Creo sudoku con mi función generar_sudoku() luego lo aplico a mi tabla
         resuelvo el sudoku y imprimo en pantalla el nuevo sudoku con dibujar_tabla()
         '''
-        if (self.tabla[i][j] for i, j in range(len(self.tabla))) == 0: # Si hay mas de un cero en la tabla:
+        if 0 in [val for sublist in self.tabla for val in sublist]: # Si hay mas de un cero en la tabla:
             self.tabla = GenerarSudoku.generar_sudoku(self.tabla) # generar nuevo sudoku aleatorio
             self.tabla_solucionado = copy.deepcopy(self.tabla) # genero copia de nuevo sudoku
             SolucionarSudoku.resolver_sudoku(self.tabla_solucionado) # resolver tabla sudoku
