@@ -6,7 +6,8 @@ import copy
 
 from solucionar_sudoku import SolucionarSudoku
 from generar_sudoku import GenerarSudoku
-
+from singleton import singleton
+@singleton
 class Sudoku:
 
     tabla = [
@@ -25,6 +26,8 @@ class Sudoku:
     VIDAS_JUEGO = 3
     ANCHO_MENU = 100
     TAMAÑO_VENTANA_INICIAL = (500+ANCHO_MENU, 400)
+    AZUL_1 = "#92c1ff"
+    AZUL_2 = "#c2dcff"
 
     def __init__(self, nombre_ventana: str):
         # Inicio tkinter con nombre de ventana:
@@ -50,7 +53,7 @@ class Sudoku:
         self.asignar_click_labels()
         # Asignar keystrokes a todo el programa en caso de números del 1 al 9
         self.ventana.bind("<Key>", self.input_usuario)
-        # Asingo evento en caso de que usuario de cerrar ventana:
+        # Asigno evento en caso de que usuario de cerrar ventana:
         self.ventana.protocol("WM_DELETE_WINDOW", self.cerrar_ventana)
         # Ejecutando el bucle principal de tkinter
         self.ventana.mainloop()
@@ -68,7 +71,7 @@ class Sudoku:
                 str_numero = tk.StringVar(value=(str(self.tabla[alto][ancho]) if (self.tabla[alto][ancho]) != 0 else "")) # poner numero de lista si no es 0 si lo es poner ""
 
                 # Cuadrados con texto utilizando (Label)
-                cuadrado = tk.Label(self.ventana, bg="darksalmon" if alto % 2 == 0 else "lightsalmon", textvariable=str_numero, borderwidth=1, relief="solid")
+                cuadrado = tk.Label(self.ventana, bg=self.AZUL_1 if alto % 2 == 0 else self.AZUL_2, textvariable=str_numero, borderwidth=1, relief="solid")
                 cuadrado.grid(row=alto, column=ancho, sticky="nsew") # sticky=> quiero se peguen arriba, abajo, derecha y izquierda
                 self.lista_cuadrados[alto][ancho][0] = cuadrado # añado label cuadrado a mi lista de cuadrados
                 self.lista_cuadrados[alto][ancho][1] = str_numero
@@ -92,7 +95,7 @@ class Sudoku:
 
         for i in range(len(self.tabla)):
             for j in range((len(self.tabla))):
-                self.lista_cuadrados[i][j][0].configure(bg="green" if self.tabla[i][j] == 0 else "lightsalmon") # cambio color del label a "green" el movimiento valido 
+                self.lista_cuadrados[i][j][0].configure(bg="green" if self.tabla[i][j] == 0 else self.AZUL_2) # cambio color del label a "green" el movimiento valido 
                 self.lista_cuadrados[i][j][1].set(str(self.tabla_solucionado[i][j])) # ponemos el numero correcto al label
                 time.sleep(0.1) # duermo 100 milisegundos entre imprimir cuadrados
     
@@ -107,7 +110,7 @@ class Sudoku:
                 # Si el valor nuevo es un cero ponemos un string vació (""):
                 self.lista_cuadrados[i][j][1].set(str(self.tabla[i][j]) if self.tabla[i][j] != 0 else "") # ponemos el numero nuevo de tabla (sin solucionar) al label
                 # Ahora aspecto del label: color, borde etc ...
-                self.lista_cuadrados[i][j][0].configure(bg="darksalmon" if i % 2 == 0 else "lightsalmon", border=1)
+                self.lista_cuadrados[i][j][0].configure(bg=self.AZUL_1 if i % 2 == 0 else self.AZUL_2, border=1)
 
     def dibujar_menu(self, actualizar=False):
         '''
@@ -133,7 +136,7 @@ class Sudoku:
             self.ventana.grid_columnconfigure(len(self.tabla), weight=0) # weight 0 porque en referencia con los cuadrados queremos que escale la mitad que ellos
 
             # Añado el titulo del menu al div menu con un string var en constructor
-            titulo_menu = tk.Label(self.div_menu, textvariable=self.string_var_menu)
+            titulo_menu = tk.Label(self.div_menu, textvariable=self.string_var_menu, font=("Comfortaa", 11))
             titulo_menu.pack(pady=20)
             # Botones para generar nuevo sudoku,borrar cuadrado y resolver sudoku
             b_nuevo_sudoku = tk.Button(self.div_menu, fg="white", bg="#0067C0", text="Nuevo\nSudoku", border=1, command=self.nuevo_sudoku)
@@ -173,7 +176,7 @@ class Sudoku:
 
         if isinstance(objeto_tkinter, tk.Label) and self.click_label == False: # es un label!
 
-            objeto_tkinter.config(bg="lightsalmon", highlightthickness=1, highlightbackground="green", borderwidth=0) # cambio el aspecto del label a un borde de color verde
+            objeto_tkinter.config(highlightthickness=1, highlightbackground="green", borderwidth=0) # cambio el aspecto del label a un borde de color verde
             self.click_label = True # a hecho click ahora podemos aceptar eventos de teclado por ejemplo un numero
             # Encuentro el numero de fila y columna:
             for i in range(len(self.lista_cuadrados)):
@@ -201,7 +204,7 @@ class Sudoku:
         Creo sudoku con mi función generar_sudoku() luego lo aplico a mi tabla
         resuelvo el sudoku y imprimo en pantalla el nuevo sudoku con dibujar_tabla()
         '''
-        if 0 in [val for sublist in self.tabla for val in sublist]: # Si hay mas de un cero en la tabla:
+        if 0 in [val for sublist in self.tabla for val in sublist]: # Si hay un cero en la tabla:
             self.tabla = GenerarSudoku.generar_sudoku(self.tabla) # generar nuevo sudoku aleatorio
             self.tabla_solucionado = copy.deepcopy(self.tabla) # genero copia de nuevo sudoku
             SolucionarSudoku.resolver_sudoku(self.tabla_solucionado) # resolver tabla sudoku
@@ -230,7 +233,7 @@ class Sudoku:
         if self.click_label == True:
             fila, colum = self.fila_colum_seleccionado
             self.tabla[fila][colum] = 0 # cambio el valor de la lista tabla
-            self.lista_cuadrados[fila][colum][0].configure(bg="darksalmon" if fila % 2 == 0 else "lightsalmon", highlightthickness=0, border=1) # cambio propiedades del label
+            self.lista_cuadrados[fila][colum][0].configure(bg=self.AZUL_1 if fila % 2 == 0 else self.AZUL_2, highlightthickness=0, border=1) # cambio propiedades del label
             self.lista_cuadrados[fila][colum][1].set("") # cambio el StringVar del label a string vació
             self.click_label = False # usuario puede hacer otra acción
         else:
@@ -248,7 +251,14 @@ class Sudoku:
 
 
 if __name__ == "__main__":
+    # Le he implementado singleton a la clase Sudoku para solo poder crear un objeto de Sudoku
     mi_sudoku = Sudoku("Sudoku Juego")
     mi_sudoku.dibujar_tabla()
     mi_sudoku.dibujar_menu()
     mi_sudoku.run_sudoku()
+    # Aquí si creas otro de devolverá el objeto ya creado
+    #mi_sudoku2 = Sudoku("Sudoku Juego 2")
+    #print(str(mi_sudoku2.ventana.title()))
+
+
+
