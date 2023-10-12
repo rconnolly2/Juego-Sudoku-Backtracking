@@ -104,35 +104,43 @@ class Sudoku:
                 # si el valor nuevo es un cero ponemos un string vació (""):
                 self.lista_cuadrados[i][j][1].set(str(self.tabla[i][j]) if self.tabla[i][j] != 0 else "") # ponemos el numero nuevo de tabla (sin solucionar) al label
 
-    def dibujar_menu(self):
-        # Creo hilo (resolver sudoku) sin ejecutar para luego:
-        hilo_1 = threading.Thread(target=SolucionarSudoku.resolver_sudoku, args=(self.tabla, self.lista_cuadrados))
-        # Segundo hilo para enseñar resultado mas rápido:
-        hilo_2 = threading.Thread(target=self.display_resultado_sudoku)
-        # Esto seria como el "div" del menu
-        div_menu = tk.Frame(self.ventana, bg="#F3F3F3", width=self.ANCHO_MENU, height=self.TAMAÑO_VENTANA_INICIAL[1])
-        # Configuro para que no sea escalable y este después de los cuadrados horizontalmente
-        div_menu.grid(row=0, column=9, rowspan=9, sticky="nw")
-        self.ventana.grid_columnconfigure(len(self.tabla), weight=0) # weight 0 porque en referencia con los cuadrados queremos que escale la mitad que ellos
+    def dibujar_menu(self, actualizar=False):
+        if actualizar == True:
+            # Actualizo hilo con nueva tabla (resolver sudoku) sin ejecutar para luego:
+            hilo_1 = threading.Thread(target=SolucionarSudoku.resolver_sudoku, args=(self.tabla, self.lista_cuadrados))
+            # Actualizo botón con el nuevo thread que tiene la nueva tabla a solucionar
+            self.b_resolver_sudoku.configure(text="Resolver\nSudoku", command=lambda: hilo_1.start())
 
-        # Añado el titulo del menu al div menu con un string var en constructor
-        titulo_menu = tk.Label(div_menu, textvariable=self.string_var_menu)
-        titulo_menu.pack(pady=20)
-        # Botones para generar nuevo sudoku,borrar cuadrado y resolver sudoku
-        b_nuevo_sudoku = tk.Button(div_menu, fg="white", bg="#0067C0", text="Nuevo\nSudoku", border=1, command=self.nuevo_sudoku)
-        b_borrar_cuadrado = tk.Button(div_menu, fg="white", bg="#0067C0", text="Borrar cuadrado\nseleccionado")
+        else: # Dibujamos tabla por primera vez
+            # Creo hilo (resolver sudoku) sin ejecutar para luego:
+            hilo_1 = threading.Thread(target=SolucionarSudoku.resolver_sudoku, args=(self.tabla, self.lista_cuadrados))
+            # Segundo hilo para enseñar resultado mas rápido:
+            hilo_2 = threading.Thread(target=self.display_resultado_sudoku)
+            # Esto seria como el "div" del menu
+            self.div_menu = tk.Frame(self.ventana, bg="#F3F3F3", width=self.ANCHO_MENU, height=self.TAMAÑO_VENTANA_INICIAL[1])
+            # Configuro para que no sea escalable y este después de los cuadrados horizontalmente
+            self.div_menu.grid(row=0, column=9, rowspan=9, sticky="nw")
+            self.ventana.grid_columnconfigure(len(self.tabla), weight=0) # weight 0 porque en referencia con los cuadrados queremos que escale la mitad que ellos
 
-        # ejecuto hilo resolver sudoku con backtracking (asi podemos resolver el sudoku mientras estamos en bucle principal)
-        b_resolver_sudoku = tk.Button(div_menu, fg="white", bg="#0067C0", text="Resolver\nSudoku", command=lambda: hilo_1.start())
-        # resolver sudoku rápido con tabla ya resulta antes:
-        b_resolver_sudoku_rápido = tk.Button(div_menu, fg="white", bg="#0067C0", text="Resolver\nSudoku rápido", command=hilo_2.start)
+            # Añado el titulo del menu al div menu con un string var en constructor
+            titulo_menu = tk.Label(self.div_menu, textvariable=self.string_var_menu)
+            titulo_menu.pack(pady=20)
+            # Botones para generar nuevo sudoku,borrar cuadrado y resolver sudoku
+            b_nuevo_sudoku = tk.Button(self.div_menu, fg="white", bg="#0067C0", text="Nuevo\nSudoku", border=1, command=self.nuevo_sudoku)
+            b_borrar_cuadrado = tk.Button(self.div_menu, fg="white", bg="#0067C0", text="Borrar cuadrado\nseleccionado")
 
-        br = tk.Label(div_menu, text="", height=12, bg="#F3F3F3") # espacio vació para que se vea mas fondo
-        b_nuevo_sudoku.pack()
-        b_borrar_cuadrado.pack(pady=20, padx=10)
-        b_resolver_sudoku.pack()
-        b_resolver_sudoku_rápido.pack(pady=20)
-        br.pack()
+            # Ejecuto hilo resolver sudoku con backtracking (asi podemos resolver el sudoku mientras estamos en bucle principal)
+            # Lo guardo en instancia para poder actualizarlo luego
+            self.b_resolver_sudoku = tk.Button(self.div_menu, fg="white", bg="#0067C0", text="Resolver\nSudoku", command=lambda: hilo_1.start())
+            # resolver sudoku rápido con tabla ya resulta antes:
+            b_resolver_sudoku_rápido = tk.Button(self.div_menu, fg="white", bg="#0067C0", text="Resolver\nSudoku rápido", command=hilo_2.start)
+
+            br = tk.Label(self.div_menu, text="", height=12, bg="#F3F3F3") # espacio vació para que se vea mas fondo
+            b_nuevo_sudoku.pack()
+            b_borrar_cuadrado.pack(pady=20, padx=10)
+            self.b_resolver_sudoku.pack()
+            b_resolver_sudoku_rápido.pack(pady=20)
+            br.pack()
 
     def asignar_click_labels(self):
         '''
@@ -187,6 +195,7 @@ class Sudoku:
         self.tabla_solucionado = copy.deepcopy(self.tabla) # genero copia de nuevo sudoku
         SolucionarSudoku.resolver_sudoku(self.tabla_solucionado) # resolver tabla sudoku
         self.asignar_click_labels() # asigna botones a todos los labels (solo botón ratón izq)
+        self.dibujar_menu(actualizar=True) # no creo el menu entero solo actualizo botón resolver sudoku con la nueva tabla
         self.actualizar_tabla_sudoku() # actualizo valores de los labels con actualizar_tabla_sudoku
 
     def actualizar_pantalla_vidas(self):
