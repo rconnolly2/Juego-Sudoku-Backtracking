@@ -34,14 +34,11 @@ class SolucionarSudoku:
         # Comprobar 9 matrices de 9 números son únicos
         num_matriz_horizontal = posición[1] // 3 # lo divido entre 3 para saber si esta en matriz 0, 1, 2
         num_matriz_vertical = posición[0] // 3
-        # Horizontal primero de la matriz
+        # Bucle for entre el primero y el tercer numero de matriz
         for i_x_matriz in range(num_matriz_horizontal*3, num_matriz_horizontal*3+3):
-            if tabla[posición[0]][i_x_matriz] == num and i_x_matriz != posición[1]: # lo mismo que arriba pero en la matriz de 3x3 números para ver si se repiten
-                return False
-        # Ahora vertical matriz
-        for i_y_matriz in range(num_matriz_vertical*3, num_matriz_vertical*3+3):
-            if tabla[i_y_matriz][posición[1]] == num and i_x_matriz != posición[0]:
-                return False
+            for i_y_matriz in range(num_matriz_vertical*3, num_matriz_vertical*3+3):
+                if tabla[i_y_matriz][i_x_matriz] == num and (i_x_matriz, i_y_matriz) != posición: # compruebo que el numero que inserto no existe en la matriz 3x3 esto no lo hacemos en la posición que vamos a editar PORQUE ESTA VACÍA
+                    return False
             
         # Si pasas todas estas condiciones es => True
         return True

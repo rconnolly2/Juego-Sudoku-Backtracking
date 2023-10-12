@@ -196,6 +196,7 @@ class Sudoku:
         '''
         self.tabla = GenerarSudoku.generar_sudoku(self.tabla) # generar nuevo sudoku aleatorio
         self.tabla_solucionado = copy.deepcopy(self.tabla) # genero copia de nuevo sudoku
+        print(self.tabla_solucionado)
         SolucionarSudoku.resolver_sudoku(self.tabla_solucionado) # resolver tabla sudoku
         self.asignar_click_labels() # asigna botones a todos los labels (solo botón ratón izq)
         self.dibujar_menu(actualizar=True) # no creo el menu entero solo actualizo botón resolver sudoku con la nueva tabla
