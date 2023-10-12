@@ -225,7 +225,7 @@ class Sudoku:
         if self.click_label == True:
             fila, colum = self.fila_colum_seleccionado
             self.tabla[fila][colum] = 0 # cambio el valor de la lista tabla
-            self.lista_cuadrados[fila][colum][0].configure(bg="lightsalmon") # cambio propiedades del label
+            self.lista_cuadrados[fila][colum][0].configure(bg="darksalmon" if fila % 2 == 0 else "lightsalmon", highlightthickness=0, border=1) # cambio propiedades del label
             self.lista_cuadrados[fila][colum][1].set("") # cambio el StringVar del label a string vació
             self.click_label = False # usuario puede hacer otra acción
         else:
