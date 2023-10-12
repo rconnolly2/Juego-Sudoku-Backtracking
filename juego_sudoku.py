@@ -108,6 +108,11 @@ class Sudoku:
                 self.lista_cuadrados[i][j][1].set(str(self.tabla[i][j]) if self.tabla[i][j] != 0 else "") # ponemos el numero nuevo de tabla (sin solucionar) al label
 
     def dibujar_menu(self, actualizar=False):
+        '''
+        Esta función dibuja por primera vez o actualizara el menu en pantalla.
+
+        actualizar => booleano (Si esto es True solo se actualizara el hilo de resolver sudoku con la nueva tabla)
+        '''
         if actualizar == True:
             # Actualizo hilo con nueva tabla (resolver sudoku) sin ejecutar para luego:
             hilo_1 = threading.Thread(target=SolucionarSudoku.resolver_sudoku, args=(self.tabla, self.lista_cuadrados))
@@ -196,7 +201,6 @@ class Sudoku:
         '''
         self.tabla = GenerarSudoku.generar_sudoku(self.tabla) # generar nuevo sudoku aleatorio
         self.tabla_solucionado = copy.deepcopy(self.tabla) # genero copia de nuevo sudoku
-        print(self.tabla_solucionado)
         SolucionarSudoku.resolver_sudoku(self.tabla_solucionado) # resolver tabla sudoku
         self.asignar_click_labels() # asigna botones a todos los labels (solo botón ratón izq)
         self.dibujar_menu(actualizar=True) # no creo el menu entero solo actualizo botón resolver sudoku con la nueva tabla
