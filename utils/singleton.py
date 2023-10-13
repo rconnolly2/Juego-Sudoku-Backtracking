@@ -20,3 +20,6 @@ def singleton(cls):
 class Usuario:
     def __init__(self):
         self.estado_login = False
+
+def hola():
+    print("hola")

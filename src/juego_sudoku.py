@@ -3,10 +3,18 @@ from tkinter import messagebox
 import threading
 import time
 import copy
+import sys
+import os
 
 from solucionar_sudoku import SolucionarSudoku
 from generar_sudoku import GenerarSudoku
-from singleton import singleton
+
+try:
+    sys.path.append(os.path.join(os.path.dirname(__file__), '..\\')) # añado ruta relativa para ir un paso atrás, para que en este entorno python reconozca la carpeta de atrás (utils)
+except:
+    raise ValueError("Error: esto pasa si estas en Mac o Linux en vez de Windows, edita la ruta relativa ..\\ a la de Linux o Mac")
+from utils.singleton import singleton
+
 
 
 @singleton # Implemento patron creacional singleton
