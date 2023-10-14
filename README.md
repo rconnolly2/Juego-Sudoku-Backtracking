@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="https://github.com/rconnolly2/Juego_Sudoku_Backtracking/blob/main/img/logo.png?raw=true">
+    <img width="25%" src="https://github.com/rconnolly2/Juego_Sudoku_Backtracking/blob/main/img/logo_high_res.png?raw=true">
     <h2>Sudoku Solver: ¡Juega a Sudoku o deja a tu ordenador solucionarlo por ti!</h2>
 </div>
 
@@ -8,7 +8,7 @@
       <img src="https://img.shields.io/badge/license-MIT-informational">
     </a>
     <a href="https://www.python.org/">
-    	<img src="https://img.shields.io/badge/python-v3.8-informational">
+    	<img src="https://img.shields.io/badge/python-v3.11.1-informational">
     </a>
 </div>
 
@@ -41,7 +41,7 @@ Con la ayuda de Sudoku Solver, no necesitas invertir horas resolviendo acertijos
 
 Para poder utilizar Sudoku Solver, simplemente descarga el repositorio y ejecuta `start_game.py` en la carpeta `src`. Aparecerá un tablero de Sudoku, y si deseas otro, simplemente pulsa el botón "Generar nuevo Sudoku". Puedes hacer clic en cualquier recuadro e introducir un número del 1 al 9, tienes un total de 3 intentos.
 
-![jugando sudoku](https://github.com/rconnolly2/Algoritmo_Punto_Medio_Circunferencias/blob/master/algo.gif?raw=true)
+![jugando sudoku](https://github.com/rconnolly2/Juego_Sudoku_Backtracking/blob/main/img/guia.gif?raw=true)
 
 Si te quedas atascado, puedes dejar que el programa lo resuelva por ti utilizando la recursividad y el "backtracking". Tienes dos opciones: "Resolver Sudoku Rápido" y "Resolver Sudoku".
 
@@ -82,4 +82,5 @@ python start_game.py
 ## Conclusión
 
 Si disfrutas de los desafíos que plantea el Sudoku, Sudoku Solver se presenta como la herramienta ideal para resolverlos de manera rápida y sencilla. Gracias a su potente algoritmo y su interfaz intuitiva, te encontrarás resolviendo acertijos en un abrir y cerrar de ojos. Además, el Sudoku es una excelente forma de ejercitar tu mente y mejorar tus habilidades cognitivas, lo que lo convierte en un juego entretenido y estimulante para personas de todas las edades. Entonces, ¿por qué esperar más? ¡Descarga Sudoku Solver hoy mismo y comienza a disfrutar del desafío!
+<p align='center'><b>Made with ❤ by Robert Connolly</b></p>
 
