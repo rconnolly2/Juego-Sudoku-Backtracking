@@ -45,7 +45,12 @@ Para poder utilizar Sudoku Solver, simplemente descarga el repositorio y ejecuta
 
 Si te quedas atascado, puedes dejar que el programa lo resuelva por ti utilizando la recursividad y el "backtracking". Tienes dos opciones: "Resolver Sudoku Rápido" y "Resolver Sudoku".
 
-![resolver sudoku rápido](https://github.com/rconnolly2/Algoritmo_Punto_Medio_Circunferencias/blob/master/algo.gif?raw=true)
+![resolver sudoku rápido](https://github.com/rconnolly2/Juego_Sudoku_Backtracking/blob/main/img/resolver_sudoku_rapido.gif?raw=true)
+
+## Cómo funciona el **_Algoritmo Backtracking_**:
+<div align="center">
+	<img width="50%" src="https://github.com/rconnolly2/Juego_Sudoku_Backtracking/blob/main/img/resolver_sudoku_backtracking.gif?raw=true"><img width="50%" src="https://github.com/rconnolly2/Juego_Sudoku_Backtracking/blob/main/img/backtracking_explicado.png">
+</div>
 
 ## Entradas
 
