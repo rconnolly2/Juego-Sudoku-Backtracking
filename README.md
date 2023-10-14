@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="https://github.com/rconnolly2/Juego_Sudoku_Backtracking/blob/main/img/logo_high_res.png?raw=true">
+    <img width="25%" src="https://github.com/rconnolly2/Juego_Sudoku_Backtracking/blob/main/img/logo_high_res.png?raw=true">
     <h2>Sudoku Solver: ¡Juega a Sudoku o deja a tu ordenador solucionarlo por ti!</h2>
 </div>
 
