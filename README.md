@@ -1,27 +1,29 @@
 <div align="center">
     <img src="https://github.com/rconnolly2/Juego_Sudoku_Backtracking/blob/main/img/logo.png?raw=true">
-    <h2>Sudoku Solver: ¡Juega a Sudoku o deja a tu ordenador solucionarlo por ti!<h2/>
-<div/>
+    <h2>Sudoku Solver: ¡Juega a Sudoku o deja a tu ordenador solucionarlo por ti!</h2>
+</div>
 
-<div>
+<div align="center">
     <a href="https://github.com/rconnolly2/Juego_Sudoku_Backtracking/blob/main/LICENSE">
       <img src="https://img.shields.io/badge/license-MIT-informational">
     </a>
     <a href="https://www.python.org/">
     	<img src="https://img.shields.io/badge/python-v3.8-informational">
     </a>
-<div/>
+</div>
 
 <p align="center">
 	<img src="http://ForTheBadge.com/images/badges/made-with-python.svg">
 </p>
-<img alt="GitHub last commit (by committer)" src="https://img.shields.io/github/last-commit/rconnolly2/Juego_Sudoku_Backtracking">
+<div align="center">
+	<img alt="GitHub last commit (by committer)" src="https://img.shields.io/github/last-commit/rconnolly2/Juego_Sudoku_Backtracking">
+</div>
 
 # Sudoku Solver
 
 ¿Estás preparado para poner tus habilidades lógicas en práctica? ¡Con este juego de Sudoku, podrás jugar y si te quedas atascado, el juego te ayudará!
 
-El Sudoku es un rompecabezas lógico y numérico que se juega en un tablero cuadrado dividido en nueve subcuadros más pequeños. El objetivo principal del juego es llenar el tablero con números del 1 al 9 de manera que cada fila, columna y región de 3x3 contenga todos los números del 1 al 9 sin repetir ninguno.
+Sudoku es un rompecabezas lógico y numérico que se juega en un tablero cuadrado dividido en nueve subcuadros más pequeños. El objetivo principal del juego es llenar el tablero con números del 1 al 9 de manera que cada fila, columna y región de 3x3 contenga todos los números del 1 al 9 sin repetir ninguno.
 
 ## Reglas
 Debes llenar el tablero con los números que faltan (del 1 al 9) de manera que no haya repeticiones de ningún número en ninguna fila, columna o región de 3x3. Elige un número del 1 al 9 que aún no se encuentre en esa fila, columna o región específica.
